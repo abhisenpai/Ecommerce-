@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+    <h1>
+        {{product.title}}  <!--Product caption--></h1>
+      <div class="row">
+        
+        {% for item in product.productimage_set.all %}  <!--product images for loop-->
+        
+        {% if item.featured %}
+          
+            <div class="col-xs- col-md-6">
+                <p id="feat">Featured</p><br/>
+              <img src="{{item.image.url}}" class='img-responsive img-fluid  '>
+              
+            </div>
+          
+        {% else %}
+            
+            <div class="col-xs-6 col-md-3">
+                <p id="feat"></p><br/>
+              <img src="{{item.image.url}}" class='img-responsive img-fluid img-responsive img-thumbnail'>
+            </div>
+
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

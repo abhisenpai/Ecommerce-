@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+    <h1>Searched for:{{query}}</h1>
+    {% for prod in products %}
+        {% for item in prod.productimage_set.all %}
+            <img src='{{item.image.url}}' class="img-fluid">
+        {% endfor %}
+    {% endfor %}
+{% endblock %}

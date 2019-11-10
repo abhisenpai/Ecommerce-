@@ -1,22 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="row">
-  {% for prod in products %}
-  <div class="col-sm-4">
-    
-    {% for item in prod.productimage_set.all %}
-    {% if item.featured %}
-    <img src="{{item.image.url}}" class='img-fluid'>
-       
-    {% endif %}
+{% load staticfiles %}
+<div class="container">
+  <div class="row">
+    {% for prod in products %}
+    <div class="col-sm-4">
+      <div class="img-thumbnail">
+      {% if prod.productimage_set.all %}
+        {% for item in prod.productimage_set.all %}
+
+          {% if item.featured %}
+            <img src="{{item.image.url}}" class='img-fluid'>
+          {% endif %}
+
+          <br/>
+        {% endfor %}
+      {% else %}
+        <img src="{% static 'img/placeholder.png' %}" class='img-fluid'><br/>
+      {% endif %}
+
+      <div class="caption">
+        <h3> {{prod.id}}. <a href="{{ prod.get_absolute_url }}">{{prod.title}}</a>({{prod.price}})</h3>
+        <p>{{prod.description}}</p>
+        <p><a href="{{ prod.get_absolute_url }}"><button type="button" class= "btn btn-info">View</button></a></p>
+      </div>
+      </div>
+      </div>
+      {% cycle "" "" "</div><br/><hr/><div class='row'>"%}
+      
     {% endfor %}
-    {{prod.id}}. {{prod.title}} {{prod.price}}
 
-    </div>
-    {% cycle "" "" "</div><br/><hr/><div class='row'>"%}
-    
-  {% endfor %}
-
+  </div>
 </div>
 {% endblock %}
