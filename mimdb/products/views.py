@@ -28,7 +28,7 @@ def search(request):
     except:
         q=None
     if q:
-        products = Product.objects.filter(title=q)
+        products = Product.objects.filter(title__icontains=q)
         template='products/results.html'
         context={'query':q,'products':products}
     else:
