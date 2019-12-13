@@ -9,9 +9,9 @@ class CartItem(models.Model):
     quantity = models.IntegerField(default=1)
     line_total = models.DecimalField(default=10.99,max_digits=64,decimal_places=2)
     #line_total
+    notes = models.TextField(null=True,blank=True)
     timestamp=models.DateTimeField(auto_now_add=True,auto_now=False)
     updated = models.DateTimeField(auto_now_add=False,auto_now=True)
-
 
     def __str__(self):
         try:
