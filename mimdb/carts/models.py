@@ -15,7 +15,7 @@ class CartItem(models.Model):
 
     def __str__(self):
         try:
-            return str(self.cart.id)
+            return (str(self.cart.id)+'-'+str(self.product.title))
         except:
             return self.product.title
 
