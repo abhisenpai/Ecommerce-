@@ -34,21 +34,40 @@
         <div class='col-sm-4 float-right'>
           <form method='GET' action='{% url "update_cart" product.slug %}'>
             <input class='form-control' name='qty' type='number' value='1' />
-            <select class='form-control' name='color'>
-              <option value='red'>Red</option>
-              <option value='green'>Green</option>
-              <option value='blue'>Blue</option>
-            </select>
-            <select class='form-control' name='size'>
-              <option value='small'>Small</option>
-              <option value='meddium'>Medium</option>
-              <option value='large'>Large</option>
-            </select>
+            
+            {%  if product.variation_set.all %}
+
+            {% if product.variation_set.sizes %}
+              <select class='form-control' name='color'>
+              {% for item in product.variation_set.sizes %}
+                <option value='{{item.title|lower}}'>{{item.title|capfirst}}</option>
+              {% endfor %}
+              </select>
+            {% endif %}
+
+            {% if product.variation_set.colors %}
+              <select class='form-control' name='color'>
+              {% for item in product.variation_set.colors %}
+                <option value='{{item.title|lower}}'>{{item.title|capfirst}}</option>
+              {% endfor %}
+              </select>
+            {% endif %}
+
+            {% if product.variation_set.packages %}
+              <select class='form-control' name='color'>
+              {% for item in product.variation_set.packages %}
+                <option value='{{item.title|lower}}'>{{item.title|capfirst}}</option>
+              {% endfor %}
+              </select>
+            {% endif %}
+
+            {% endif %}
+            
             <input class="btn btn-primary" type='submit' value='Add to cart' />
             
           </form>
         </div>
-        <br><br><br><br><br><br><br>
+        <br><br><br><br>
       <div class='col-sm-12'>
       <hr/>
         Price : {{product.price}}<br>
