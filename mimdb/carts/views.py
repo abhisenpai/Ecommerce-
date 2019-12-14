@@ -19,7 +19,7 @@ def view(request):
     template = "carts/view.html"
     return render(request,template,context)
 
-def update_cart(request,slug):
+def add_to_cart(request,slug):
     request.session.set_expiry(120000)
     #cart session code
     try:
@@ -42,6 +42,7 @@ def update_cart(request,slug):
     product_var=[]  #product variation
     if request.method == "POST":
         qty=request.POST['qty']
+        
         for item in request.POST:
             key = item
             val = request.POST[key]
@@ -52,28 +53,13 @@ def update_cart(request,slug):
                 pass
 
         # ("model object","true/false")
-        cart_item , created = CartItem.objects.get_or_create(cart=cart,product=product)
-        
-        
-        if created:
-            print("Yeah")
-        
-        
-        if int(qty)<=0:
-            cart_item.delete()
-        else:
-            if len(product_var)>0:
-                cart_item.variations.clear()
-                for item in product_var:
-                    cart_item.variations.add(item)
-            
-            cart_item.quantity = qty
-
-            cart_item.save()
-        
-        
+        cart_item= CartItem.objects.create(cart=cart,product=product)
+        if len(product_var)>0:
+            cart_item.variations.add(*product_var)
+        cart_item.quantity = qty
+        cart_item.save()
         sum=0.00
-        
+
         for item in cart.cartitem_set.all():
             line_total = float(item.product.price)*item.quantity
             sum+=line_total
@@ -82,5 +68,4 @@ def update_cart(request,slug):
         cart.total=sum
         cart.save()
         return HttpResponseRedirect(reverse("cart"))
-    else:
-        return HttpResponseRedirect(reverse("cart"))
+    return HttpResponseRedirect(reverse("cart"))
